@@ -1,0 +1,10 @@
+<div ng-controller="CreateCtrl">
+  <form>
+      <input class="text" type="text" ng-model="url">
+      <input type="submit" value="Shorten" ng-click="submit()">
+  </form>
+<!-- <img class="spinner" src="/spiffygif_46x46.gif"> -->
+  <div class="message" ng-show="link.code">
+  Your shortened url is <a ng-href="{{link.code}}" target="_self">{{link.code}}</a>
+  </div>
+</div>
