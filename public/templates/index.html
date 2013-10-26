@@ -1,9 +1,17 @@
+<!-- <div ng-controller="CreateCtrl"> -->
 <div ng-controller="IndexCtrl" class="">
+  <div class="navigation">
+  <form>
+    <input class="left" type="text" ng-model="url">
+    <button class="left" ng-click="submit()">Shorten</button>
+  </form>
+  <img ng-show=gettingData class="spinner" src="/spiffygif_46x46.gif">
+
   <div id="button_container">
     <button ng-click="predicate = 'visits'; reverse=!reverse">Sort by number of visits</button>
     <button ng-click="predicate = 'updated_at'; reverse=!reverse">Sort by last visit</button>
     <button ng-click="predicate = 'created_at'; reverse=!reverse">Sort by create date</button>
-
+  </div>
   <!--
     <div class="sort_text" ng-controller="SortCtrl" class="right">
       Sorted by {{displaySort(predicate)}}
@@ -14,11 +22,11 @@
   <div class="link" ng-repeat="link in links | orderBy:predicate:reverse">
     <img src="/redirect_icon.png"/>
     <div class="info">
-      <div class="updated">{{moment(link.updated_at)}}</div>
+      <div class="updated">{{link.updated_at | date:'medium'}}</div>
       <div class="visits"><span class="count">{{link.visits}}</span> Visits</div>
       <div class="title">{{link.title}}:</div>
       <div class="original">{{link.url}}</div>
-      <div><a ng-href="{{link.code}}" target="_self">http://127.0.0.1/{{link.code}}</a></div>
+      <div><a ng-href="{{link.code}}" target="_blank">http://127.0.0.1/{{link.code}}</a></div>
       <div ng-controller="LinkStats">
         <a href="" ng-click="showStats(link.id)" ng-show=!showingStats>show stats</a>
         <a href="" ng-click="hideStats()" ng-show=showingStats>hide stats</a>
@@ -29,3 +37,4 @@
     </div>
   </div>
 </div>
+<!-- </div> -->

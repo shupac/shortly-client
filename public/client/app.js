@@ -12,14 +12,41 @@ app.config(function($routeProvider, $locationProvider) {
 
   $locationProvider.html5Mode(true);
 })
+
+// .controller('CreateCtrl', function($scope, $http, $location){
+//   $scope.submit = function() {
+//     $http.post('/links', {url: $scope.url})
+//     .success(function(data){
+//     })
+//     .error(function(data) {
+//       console.log('error', data);
+//     });
+//   };
+// })
+
 .controller('IndexCtrl', function($scope, $http){
-  $http.get('/links')
-  .success(function(data) {
-    $scope.links = data;
-  })
-  .error(function(data){
-    console.log('get error: ', data);
-  });
+  $scope.gettingData = false;
+  $scope.submit = function() {
+    $scope.gettingData = true;
+    $http.post('/links', {url: $scope.url})
+    .success(function(data){
+      $scope.getLinks();
+      $scope.gettingData = false;
+    })
+    .error(function(data) {
+      console.log('error', data);
+    });
+  };
+
+  $scope.getLinks = function() {
+    $http.get('/links')
+    .success(function(data) {
+      $scope.links = data;
+    })
+    .error(function(data){
+      console.log('get error: ', data);
+    });
+  };
 
   $scope.moment = function(timestamp){
     var time = moment(timestamp).format('MMM D, h:mm:ss a');
@@ -28,18 +55,9 @@ app.config(function($routeProvider, $locationProvider) {
 
   $scope.predicate = 'visits';
   $scope.reverse = 'true';
+  $scope.getLinks();
 })
-.controller('CreateCtrl', function($scope, $http, $location){
-  $scope.submit = function() {
-    $http.post('/links', {url: $scope.url})
-    .success(function(data){
-      $scope.link = data;
-    })
-    .error(function(data) {
-      console.log('error', data);
-    });
-  };
-})
+
 .controller('SortCtrl', function($scope){
   $scope.displaySort = function(predicate){
     var sort;
