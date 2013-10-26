@@ -19,13 +19,16 @@ app.config(function($routeProvider, $locationProvider) {
 .controller('IndexCtrl', function($scope, $http){
   $http.get('/links')
   .success(function(data) {
-    console.log('hello');
-    console.log(data);
     $scope.links = data;
   })
   .error(function(data){
     console.log('get error: ', data);
   });
+
+  $scope.moment = function(timestamp){
+    var time = moment(timestamp).format('MMM D, h:mm:ss a');
+    return time;
+  };
 })
 .controller('CreateCtrl', function($scope, $http){
   $scope.submit = function() {
