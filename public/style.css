@@ -98,18 +98,6 @@ h1 {
   margin-top: 10px;
 }
 
-form {
-  margin: 10px;
-}
-
-form input[type=text] {
-  width: 360px;
-  display: block;
-  font-size: 13px;
-  padding: 5px;
-  margin-bottom: 5px;
-}
-
 .error {
   background-color: #fee;
   color: #a33;
@@ -147,4 +135,36 @@ form input[type=text] {
 #button_container {
   float: right;
   text-align: right;
+  margin-top: -40px;
+}
+
+form {
+  margin: 10px;
+}
+
+form {
+  width: 360px;
+  display: block;
+  font-size: 13px;
+  padding: 5px;
+  margin-top: 5px;
+  float: left;
+}
+
+input[type=text] {
+  width: 280px;
+  height: 22px;
+}
+
+button {
+  margin: 0 0 0 10px;
+  height: 22px;
+}
+.left {
+  float: left;
+}
+
+.sort_text {
+  margin: 5px 0 10px 20px;
+  font-size: small;
 }

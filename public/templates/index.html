@@ -1,11 +1,14 @@
 <div ng-controller="IndexCtrl" class="">
   <div id="button_container">
-    <div ng-controller="SortCtrl" class="right">
-      Sorted by {{displaySort(predicate)}}
-    </div>
     <button ng-click="predicate = 'visits'; reverse=!reverse">Sort by number of visits</button>
     <button ng-click="predicate = 'updated_at'; reverse=!reverse">Sort by last visit</button>
     <button ng-click="predicate = 'created_at'; reverse=!reverse">Sort by create date</button>
+
+  <!--
+    <div class="sort_text" ng-controller="SortCtrl" class="right">
+      Sorted by {{displaySort(predicate)}}
+    </div>
+  -->
   </div>
 
   <div class="link" ng-repeat="link in links | orderBy:predicate:reverse">

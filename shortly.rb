@@ -48,7 +48,7 @@ class Link < ActiveRecord::Base
 end
 
 class Click < ActiveRecord::Base
-    belongs_to :link, counter_cache: :visits
+    belongs_to :link #, counter_cache: :visits
 end
 
 ###########################################################
@@ -108,6 +108,8 @@ get '/:url' do
     link = Link.find_by_code params[:url]
     raise Sinatra::NotFound if link.nil?
     link.clicks.create!
+    link.visits += 1
+    link.save
     link.touch
     redirect link.url
 end

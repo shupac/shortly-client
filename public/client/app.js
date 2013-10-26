@@ -6,10 +6,6 @@ app.config(function($routeProvider, $locationProvider) {
     controller: 'IndexCtrl',
     templateUrl: 'templates/index.html'
   })
-  .when('/create', {
-    controller: 'CreateCtrl',
-    templateUrl: 'templates/create.html'
-  })
   .otherwise({
     redirectTo: '/'
   });
@@ -33,9 +29,8 @@ app.config(function($routeProvider, $locationProvider) {
   $scope.predicate = 'visits';
   $scope.reverse = 'true';
 })
-.controller('CreateCtrl', function($scope, $http){
+.controller('CreateCtrl', function($scope, $http, $location){
   $scope.submit = function() {
-    console.log($scope.url);
     $http.post('/links', {url: $scope.url})
     .success(function(data){
       $scope.link = data;
