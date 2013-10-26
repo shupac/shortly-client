@@ -95,11 +95,10 @@ end
 
 
 
-get '/stats?:link_id' do
+get '/stats/:id' do
     puts 'get request received'
     link_id = params['id'].to_i
     clicks = Click.where(link_id: link_id)
-    puts clicks.inspect
     clicks.map { |click|
         click.as_json.merge(base_url: request.base_url)
     }.to_json

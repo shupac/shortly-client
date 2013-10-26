@@ -29,6 +29,9 @@ app.config(function($routeProvider, $locationProvider) {
     var time = moment(timestamp).format('MMM D, h:mm:ss a');
     return time;
   };
+
+  $scope.predicate = 'visits';
+  $scope.reverse = 'true';
 })
 .controller('CreateCtrl', function($scope, $http){
   $scope.submit = function() {
@@ -43,5 +46,34 @@ app.config(function($routeProvider, $locationProvider) {
   };
 })
 .controller('SortCtrl', function($scope){
-  // console.log(predicate);
+  $scope.displaySort = function(predicate){
+    var sort;
+    switch(predicate) {
+      case 'visits':
+        sort = 'number of visits';
+        break;
+      case 'updated_at':
+        sort = 'last visit';
+        break;
+      case 'created_at':
+        sort = 'when created';
+        break;
+      default:
+        break;
+    }
+    return sort;
+  };
+}).
+controller('LinkStats', function($scope, $http){
+  $scope.showingStats = false;
+  $scope.showStats = function(id) {
+    $http.get('/stats/'+id).success(function(data) {
+      $scope.clicks = data;
+    });
+    $scope.showingStats = true;
+  };
+
+  $scope.hideStats = function() {
+    $scope.showingStats = false;
+  };
 });

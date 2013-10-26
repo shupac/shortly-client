@@ -2,9 +2,13 @@
 <div class="navigation">
 <ul>
   <li><a href="/" class="index">All Links</a></li>
-  <li><a href="/create" class="create">Shorten</a></li>
-  <li><a href="/sort" class="sortByVisits">Sort By Visits</a></li>
-  <li><a href="/" class="sortByLast">Sort By Last Visit</a></li>
+  <!-- <li><a href="/create" class="create">Shorten</a></li> -->
+  <div ng-controller="CreateCtrl">
+    <form>
+      <input class="text" type="text" ng-model="url">
+      <input type="submit" value="Shorten" ng-click="submit()">
+    </form>
+  </div>
 </ul>
 </div>
 <div id="container" ng-view>

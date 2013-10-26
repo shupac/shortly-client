@@ -1,10 +1,11 @@
 <div ng-controller="IndexCtrl" class="">
-  <button ng-click="predicate = 'visits'; reverse=!reverse">Sort by number of visits</button>
-  <button ng-click="predicate = 'updated_at'; reverse=!reverse">Sort by last visit</button>
-  <button ng-click="predicate = 'created_at'; reverse=!reverse">Sort by create date</button>
-
-  <div ng-controller="SortCtrl">
-    {{sort}}
+  <div id="button_container">
+    <div ng-controller="SortCtrl" class="right">
+      Sorted by {{displaySort(predicate)}}
+    </div>
+    <button ng-click="predicate = 'visits'; reverse=!reverse">Sort by number of visits</button>
+    <button ng-click="predicate = 'updated_at'; reverse=!reverse">Sort by last visit</button>
+    <button ng-click="predicate = 'created_at'; reverse=!reverse">Sort by create date</button>
   </div>
 
   <div class="link" ng-repeat="link in links | orderBy:predicate:reverse">
@@ -14,7 +15,14 @@
       <div class="visits"><span class="count">{{link.visits}}</span> Visits</div>
       <div class="title">{{link.title}}:</div>
       <div class="original">{{link.url}}</div>
-      <div><a ng-href="{{link.code}}" target="_self">http:127.0.0.1/{{link.code}}</a></div>
+      <div><a ng-href="{{link.code}}" target="_self">http://127.0.0.1/{{link.code}}</a></div>
+      <div ng-controller="LinkStats">
+        <a href="" ng-click="showStats(link.id)" ng-show=!showingStats>show stats</a>
+        <a href="" ng-click="hideStats()" ng-show=showingStats>hide stats</a>
+        <ul ng-show=showingStats>
+          <li ng-repeat="click in clicks">{{click.created_at | date:'medium'}}</li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
