@@ -35,6 +35,7 @@ app.config(function($routeProvider, $locationProvider) {
     })
     .error(function(data) {
       console.log('error', data);
+      $scope.gettingData = false;
     });
   };
 

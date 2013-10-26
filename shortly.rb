@@ -61,10 +61,6 @@ get '/' do
     erb :index
 end
 
-get '/create' do
-    erb :index
-end
-
 get '/sort/*' do
     erb :index
 end

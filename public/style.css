@@ -10,7 +10,8 @@ a {
   text-decoration: none;
 }
 
-h1 {
+h1 a {
+  font-size: x-large;
   font-style: italic;
   margin: 10px;
 }
@@ -100,26 +101,6 @@ h1 {
   margin: 0 10px;
 }
 
-.creator {
-  height: 50px;
-}
-
-.creator form {
-  float: left;
-  height: 80px;
-}
-
-.creator img.spinner {
-  height: 46px;
-  margin-bottom: 5px;
-  padding: 10px;
-  display: none;
-}
-
-.creator .message {
-  clear: both;
-}
-
 .updated {
   float: right;
   margin-top: 28px;
@@ -144,6 +125,14 @@ form {
   padding: 5px;
   margin-top: 5px;
   float: left;
+}
+
+.spinner {
+  position: relative;
+  left: -20px;
+  top: 5px;
+  height: 30px;
+  /*margin-top: -50px;*/
 }
 
 input[type=text] {
