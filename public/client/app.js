@@ -41,4 +41,7 @@ app.config(function($routeProvider, $locationProvider) {
       console.log('error', data);
     });
   };
+})
+.controller('SortCtrl', function($scope){
+  // console.log(predicate);
 });

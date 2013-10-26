@@ -1,8 +1,16 @@
 <div ng-controller="IndexCtrl" class="">
-  <div ng-repeat="link in links" class="link">
+  <button ng-click="predicate = 'visits'; reverse=!reverse">Sort by number of visits</button>
+  <button ng-click="predicate = 'updated_at'; reverse=!reverse">Sort by last visit</button>
+  <button ng-click="predicate = 'created_at'; reverse=!reverse">Sort by create date</button>
+
+  <div ng-controller="SortCtrl">
+    {{sort}}
+  </div>
+
+  <div class="link" ng-repeat="link in links | orderBy:predicate:reverse">
     <img src="/redirect_icon.png"/>
     <div class="info">
-      <div class="updated">Last visit: {{moment(link.updated_at)}}</div>
+      <div class="updated">{{moment(link.updated_at)}}</div>
       <div class="visits"><span class="count">{{link.visits}}</span> Visits</div>
       <div class="title">{{link.title}}:</div>
       <div class="original">{{link.url}}</div>
