@@ -6,6 +6,10 @@ app.config(function($routeProvider, $locationProvider) {
     controller: 'IndexCtrl',
     templateUrl: 'templates/index.html'
   })
+  .when('/signup', {
+    controller: 'SignupCtrl',
+    templateUrl: 'templates/signup.html'
+  })
   .otherwise({
     redirectTo: '/'
   });
@@ -23,7 +27,22 @@ app.config(function($routeProvider, $locationProvider) {
 //     });
 //   };
 // })
-
+.controller('SignupCtrl', function($scope, $http){
+  $scope.submit = function(){
+    console.log('post');
+    $http({
+      method: 'POST',
+      url: '/signup',
+      data: {
+        username: $scope.user.username,
+        password: $scope.user.password
+      }
+    })
+    .success(function(data) {
+      console.log(data);
+    });
+  }
+})
 .controller('IndexCtrl', function($scope, $http){
   $scope.gettingData = false;
   $scope.submit = function() {
