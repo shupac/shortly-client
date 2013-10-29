@@ -103,11 +103,15 @@ post "/login" do
   username = data['username']
   password = data['password']
   user = User.find_by_username(username)
-  password_hash = BCrypt::Engine.hash_secret(password, user[:salt])
-  if !user.nil? && user[:password] === password_hash
-    {success: true, id: user.identifier}.to_json
+  if user != nil
+    password_hash = BCrypt::Engine.hash_secret(password, user[:salt])
+    if user[:password] == password_hash
+      {success: true, id: user.identifier}.to_json
+    else
+      {success: false, message: 'Incorrect username or password'}.to_json
+    end
   else
-    {success: false, message: 'Incorrect username or password'}.to_json
+    {success: false, message: 'User not found'}.to_json
   end
 end
 

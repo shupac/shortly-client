@@ -25,9 +25,17 @@ app.config(function($routeProvider, $locationProvider) {
 })
 .factory('SessionService', function($http, $q){
   var service = {
-    currentUser: null
-    // isAuthenticated()
-
+    currentUser: null,
+    isLoggedIn: function() {
+      if(currentUser) return true;
+      else return false;
+    },
+    logIn: function(id) {
+      currentUser = id;
+    },
+    logOut: function() {
+      currentUser = null;
+    }
   };
   return service;
 })
