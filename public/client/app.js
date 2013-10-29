@@ -19,27 +19,36 @@ app.config(function($routeProvider, $locationProvider) {
   });
   $locationProvider.html5Mode(true);
 })
-.run(function() {
-  // $rootScope.$on('', function(){}); // on every location change, check to see if user is authenticated
+.run(function($rootScope, $location, SessionService) {
+  $rootScope.$on('$routeChangeStart', function(evt, next, current){
+    if(!SessionService.isLoggedIn()) {
+      if(next.controller !== 'SignupCtrl') {
+        $location.path('/login');
+      }
+    }
+  });
+  // on every location change, check to see if user is authenticated
   // if not authenticated, redirect to /login
 })
-.factory('SessionService', function($http, $q){
+.factory('SessionService', function($http, $q, $location){
   var service = {
     currentUser: null,
     isLoggedIn: function() {
-      if(currentUser) return true;
+      if(service.currentUser) return true;
       else return false;
     },
-    logIn: function(id) {
-      currentUser = id;
+    login: function(id) {
+      service.currentUser = id;
+      $location.path('/');
     },
-    logOut: function() {
-      currentUser = null;
+    logout: function() {
+      service.currentUser = null;
+      $location.path('/login');
     }
   };
   return service;
 })
-.controller('SignupCtrl', function($scope, $http){
+.controller('SignupCtrl', function($scope, $http, SessionService, $location){
   $scope.submit = function(){
     console.log('post', $scope.user.username, $scope.user.password);
     $http({
@@ -51,11 +60,16 @@ app.config(function($routeProvider, $locationProvider) {
       }
     })
     .success(function(data) {
-      console.log(data);
+      if(data.success) {
+        SessionService.login(data.id);
+        $location.path('/');
+      } else {
+        console.log(data.message);
+      }
     });
   };
 })
-.controller('LoginCtrl', function($scope, $http){
+.controller('LoginCtrl', function($scope, $http, SessionService, $location){
   $scope.submit = function(){
     console.log('post', $scope.user.username, $scope.user.password);
     $http({
@@ -67,11 +81,17 @@ app.config(function($routeProvider, $locationProvider) {
       }
     })
     .success(function(data) {
-      console.log(data);
+      if(data.success) {
+        SessionService.login(data.id);
+        $location.path('/');
+      } else {
+        console.log(data.message);
+      }
     });
   };
 })
-.controller('IndexCtrl', function($scope, $http){
+.controller('IndexCtrl', function($scope, $http, SessionService){
+  console.log('hey!');
   $scope.gettingData = false;
   $scope.submit = function() {
     $scope.gettingData = true;
@@ -96,13 +116,11 @@ app.config(function($routeProvider, $locationProvider) {
     });
   };
 
-  $scope.moment = function(timestamp){
-    var time = moment(timestamp).format('MMM D, h:mm:ss a');
-    return time;
+  $scope.logout = function() {
+    console.log('logout');
+    SessionService.logout();
   };
 
-  $scope.predicate = 'visits';
-  $scope.reverse = 'true';
   $scope.getLinks();
 })
 
