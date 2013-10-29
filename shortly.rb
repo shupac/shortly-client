@@ -53,12 +53,12 @@ class Click < ActiveRecord::Base
 end
 
 class User < ActiveRecord::Base
-  attr_accessible :username, :identifier, :password
+  attr_accessible :username, :identifier, :password, :salt
 
   validates :password, presence: true
 
   before_save do |record|
-    record.identifier = Digest::SHA1.hexdigest(url)
+    record.identifier = Digest::SHA1.hexdigest(username)
   end
 end
 
@@ -85,16 +85,17 @@ enable :sessions
 # end
 
 post "/signup" do
-  p params[:username], params[:password]
-  # password_salt = BCrypt::Engine.generate_salt
-  # password_hash = BCrypt::Engine.hash_secret(params[:password], password_salt)
-
-  # raise 'Username is already taken' if User.find(username: params[:username])
-  # user = User.create(username: params[:username], salt: password_salt, password: password_hash)
-  # # session[:identifier] = user.identifier
-  # link.identifier.to_json
-  # redirect "/"
- 
+  data = JSON.parse(request.body.read)
+  username = data['username']
+  password = data['password']
+  password_salt = BCrypt::Engine.generate_salt
+  password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+  if User.find_by_username(username)
+    {message: 'Username already exists'}.to_json
+  else
+    user = User.create(username: username, salt: password_salt, password: password_hash)
+    user.identifier.to_json
+  end
 end
 
 ###########################################################

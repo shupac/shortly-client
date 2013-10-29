@@ -29,10 +29,10 @@ app.config(function($routeProvider, $locationProvider) {
 // })
 .controller('SignupCtrl', function($scope, $http){
   $scope.submit = function(){
-    console.log('post');
+    console.log('post', $scope.user.username, $scope.user.password);
     $http({
-      method: 'POST',
       url: '/signup',
+      method: 'POST',
       data: {
         username: $scope.user.username,
         password: $scope.user.password
@@ -41,7 +41,7 @@ app.config(function($routeProvider, $locationProvider) {
     .success(function(data) {
       console.log(data);
     });
-  }
+  };
 })
 .controller('IndexCtrl', function($scope, $http){
   $scope.gettingData = false;
