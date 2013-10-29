@@ -98,6 +98,19 @@ post "/signup" do
   end
 end
 
+post "/login" do
+  data = JSON.parse(request.body.read)
+  username = data['username']
+  password = data['password']
+  user = User.find_by_username(username)
+  password_hash = BCrypt::Engine.hash_secret(password, user[:salt])
+  if !user.nil? && user[:password] === password_hash
+    {success: true, id: user.identifier}.to_json
+  else
+    {success: false, message: 'Incorrect username or password'}.to_json
+  end
+end
+
 ###########################################################
 # Routes
 ###########################################################
@@ -113,6 +126,10 @@ get '/sort/*' do
 end
 
 get '/signup' do
+  erb :index
+end
+
+get '/login' do
   erb :index
 end
 

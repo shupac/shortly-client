@@ -10,28 +10,48 @@ app.config(function($routeProvider, $locationProvider) {
     controller: 'SignupCtrl',
     templateUrl: 'templates/signup.html'
   })
+  .when('/login', {
+    controller: 'LoginCtrl',
+    templateUrl: 'templates/login.html'
+  })
   .otherwise({
     redirectTo: '/'
   });
-
   $locationProvider.html5Mode(true);
 })
+.run(function() {
+  // $rootScope.$on('', function(){}); // on every location change, check to see if user is authenticated
+  // if not authenticated, redirect to /login
+})
+.factory('SessionService', function($http, $q){
+  var service = {
+    currentUser: null
+    // isAuthenticated()
 
-// .controller('CreateCtrl', function($scope, $http, $location){
-//   $scope.submit = function() {
-//     $http.post('/links', {url: $scope.url})
-//     .success(function(data){
-//     })
-//     .error(function(data) {
-//       console.log('error', data);
-//     });
-//   };
-// })
+  };
+  return service;
+})
 .controller('SignupCtrl', function($scope, $http){
   $scope.submit = function(){
     console.log('post', $scope.user.username, $scope.user.password);
     $http({
       url: '/signup',
+      method: 'POST',
+      data: {
+        username: $scope.user.username,
+        password: $scope.user.password
+      }
+    })
+    .success(function(data) {
+      console.log(data);
+    });
+  };
+})
+.controller('LoginCtrl', function($scope, $http){
+  $scope.submit = function(){
+    console.log('post', $scope.user.username, $scope.user.password);
+    $http({
+      url: '/login',
       method: 'POST',
       data: {
         username: $scope.user.username,
