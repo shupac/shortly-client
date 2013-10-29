@@ -91,10 +91,10 @@ post "/signup" do
   password_salt = BCrypt::Engine.generate_salt
   password_hash = BCrypt::Engine.hash_secret(password, password_salt)
   if User.find_by_username(username)
-    {message: 'Username already exists'}.to_json
+    {success: false, message: 'Username already exists'}.to_json
   else
     user = User.create(username: username, salt: password_salt, password: password_hash)
-    user.identifier.to_json
+    {success: true, id: user.identifier}.to_json
   end
 end
 
